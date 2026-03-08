@@ -44,7 +44,7 @@ org_structure_api/
 ### 1. Клонировать репозиторий
 
 
-git clone <repo_url>
+git clone https://github.com/the-Hodor/org_structure_api.git  
 cd org_structure_api
 
 
