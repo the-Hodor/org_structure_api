@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+venv/
+env/
+.env
+db.sqlite3
+media/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+postgres_data/
