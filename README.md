@@ -110,14 +110,14 @@ http://127.0.0.1:8000/admin/
 ### Organizations
 
 
-GET /api/organizations/
+GET /api/organizations/  
 POST /api/organizations/
 
 
 Структура организации:
 
 
-GET /api/organizations/{id}/structure/
+GET /api/organizations/{id}/structure/  
 
 
 Возвращает полное дерево отделов вместе с сотрудниками.
@@ -125,7 +125,7 @@ GET /api/organizations/{id}/structure/
 ### Departments
 
 
-GET /api/departments/
+GET /api/departments/  
 POST /api/departments/
 
 
@@ -146,7 +146,7 @@ POST /api/departments/{id}/move/
 ### Employees
 
 
-GET /api/employees/
+GET /api/employees/  
 POST /api/employees/
 
 
