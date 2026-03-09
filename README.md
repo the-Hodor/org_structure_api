@@ -48,18 +48,31 @@ git clone https://github.com/the-Hodor/org_structure_api.git
 cd org_structure_api
 
 
-### 2. Создать файл окружения
+## 2. Создание файла окружения
 
-Создайте файл `.env` на основе `.env.example`.
+Необходимо создать файл `.env` на основе файла `.env.example`.
 
-Пример:
+### Linux / macOS
 
+```bash
+cp .env.example .env
+```
 
+### Windows (PowerShell)
+
+```powershell
+copy .env.example .env
+```
+
+После копирования в файле `.env` будут указаны параметры подключения к базе данных:
+
+```
 DB_NAME=organization_db
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_HOST=db
 DB_PORT=5432
+```
 
 
 ### 3. Запустить контейнеры
