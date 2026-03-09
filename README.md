@@ -29,7 +29,7 @@ REST API для управления организационной структ
 ## 1. Клонировать репозиторий
 
 ```bash
-git clone <repo_url>
+git clone https://github.com/the-Hodor/org_structure_api.git
 cd org_structure_api
 ```
 
