@@ -1,56 +1,43 @@
 # Organization Structure API
 
-REST API для управления иерархической структурой организации: отделами и сотрудниками.
+REST API для управления организационной структурой компании: организациями, департаментами и сотрудниками.
 
-## Технологический стек
+## Стек технологий
 
 * Python 3.10
 * Django
 * Django REST Framework
 * PostgreSQL
 * Docker / Docker Compose
+* Swagger (drf-spectacular)
 
-## Возможности
+---
 
-* Управление организациями
-* Иерархические отделы (древовидная структура)
-* Управление сотрудниками
-* Перемещение отдела внутри иерархии
-* Защита от циклических зависимостей в дереве отделов
-* Endpoint для получения структуры организации (представление в виде дерева)
+# Функциональность
 
-## Структура проекта
+* управление организациями
+* иерархическая структура департаментов
+* управление сотрудниками
+* перемещение департаментов внутри структуры
+* защита от циклов в дереве департаментов
+* получение структуры организации
 
-```
-org_structure_api/
-│
-├── config/ # Настройки Django проекта
-│
-├── organizations/ # Основное приложение
-│ ├── api/ # API слой (views, serializers, urls)
-│ ├── services/ # Бизнес-логика
-│ ├── models.py
-│
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── .env.example
-├── manage.py
-└── README.md
+---
 
-```
-## Запуск с Docker
+# Запуск проекта
 
-### 1. Клонировать репозиторий
+## 1. Клонировать репозиторий
 
-
-git clone https://github.com/the-Hodor/org_structure_api.git  
+```bash
+git clone <repo_url>
 cd org_structure_api
+```
 
+---
 
-## 2. Создание файла окружения
+## 2. Создать файл окружения
 
-Необходимо создать файл `.env` на основе файла `.env.example`.
+Создайте файл `.env` на основе `.env.example`.
 
 ### Linux / macOS
 
@@ -64,7 +51,7 @@ cp .env.example .env
 copy .env.example .env
 ```
 
-После копирования в файле `.env` будут указаны параметры подключения к базе данных:
+Файл `.env` должен содержать:
 
 ```
 DB_NAME=organization_db
@@ -74,100 +61,123 @@ DB_HOST=db
 DB_PORT=5432
 ```
 
+---
 
-### 3. Запустить контейнеры
+## 3. Запуск контейнеров
 
-
+```bash
 docker-compose up --build
+```
 
+Будут запущены:
 
-### 4. Применить миграции
+* Django API
+* PostgreSQL
 
+---
 
+## 4. Применить миграции
+
+Откройте новый терминал и выполните:
+
+```bash
 docker-compose exec web python manage.py migrate
+```
 
+---
 
-### 5. Создать суперпользователя
+## 5. Создать администратора
 
-
+```bash
 docker-compose exec web python manage.py createsuperuser
+```
 
+---
 
-### 6. Открыть API
+# Доступ к приложению
 
+### API
 
+```
 http://127.0.0.1:8000/api/
+```
 
+### Swagger документация
 
-Админ-панель:
+```
+http://127.0.0.1:8000/api/docs/
+```
 
+Через Swagger можно:
 
+* просмотреть все endpoints
+* увидеть структуру запросов
+* протестировать API прямо в браузере
+
+---
+
+### Админ панель
+
+```
 http://127.0.0.1:8000/admin/
+```
 
+---
 
-## API Endpoints
+# Основные endpoints
 
-### Organizations
+## Organizations
 
-
-GET /api/organizations/  
+```
+GET /api/organizations/
 POST /api/organizations/
+GET /api/organizations/{id}/structure/
+```
 
+---
 
-Структура организации:
+## Departments
 
-
-GET /api/organizations/{id}/structure/  
-
-
-Возвращает полное дерево отделов вместе с сотрудниками.
-
-### Departments
-
-
-GET /api/departments/  
+```
+GET /api/departments/
 POST /api/departments/
-
-
-Перемещение отдела:
-
-
+GET /api/departments/{id}/
+PATCH /api/departments/{id}/
+DELETE /api/departments/{id}/
 POST /api/departments/{id}/move/
+```
 
+---
 
-Пример тела запроса:
+## Employees
 
-
-{
-"parent": 2
-}
-
-
-### Employees
-
-
-GET /api/employees/  
+```
+GET /api/employees/
 POST /api/employees/
+GET /api/employees/{id}/
+PATCH /api/employees/{id}/
+DELETE /api/employees/{id}/
+```
 
+---
 
-## Бизнес-логика
+# Архитектура
 
-Операции с отделами обрабатываются через сервисный слой:
+Бизнес-логика вынесена в сервисный слой:
 
-
+```
 organizations/services/
+```
 
+Это позволяет отделить API слой от бизнес-логики.
 
-Это позволяет отделить бизнес-логику от API слоя.
+---
 
-При перемещении отделов реализована защита от циклов, чтобы предотвратить создание некорректных иерархических структур.
+# Особенности реализации
 
-## Примечания
+* защита от циклических зависимостей в структуре департаментов
+* кастомный endpoint для перемещения департаментов
+* использование PostgreSQL
+* контейнеризация с Docker
+* автоматическая документация API через Swagger
 
-Проект использует PostgreSQL в качестве основной базы данных и Docker для воспроизводимого окружения разработки.
-
-Если хочешь, я ещё могу:
-
-подправить README так, чтобы он выглядел более профессионально для GitHub (как у настоящих open-source проектов),
-
-или добавить секции "Installation", "Usage", "Architecture", "Future Improvements", чтобы он выглядел сильнее для работодателей.
